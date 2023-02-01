@@ -17,7 +17,15 @@ export default class Grid {
                 Math.floor(index / GRID_SIZE)
                 )
         })
-        console.log(this.cells)
+    }
+
+    get #emptyCells() {
+        return this.#cells.filter(cell => cell.tile == null)
+    }
+
+    randomEmptyCell() {
+        const randomIndex = Math.floor(Math.random() * this.#emptyCells.length)
+        return this.#emptyCells[randomIndex]
     }
 }
 
@@ -26,15 +34,27 @@ class Cell {
     #cellElemnt
     #x
     #y
+    #tile
 
     constructor (cellElement, x, y) {
         this.#cellElemnt = cellElement
         this.#x = x
         this.#y = y
     }
+
+    get tile(){
+        return this.#tile
+    }
+
+    set tile(value){
+        this.#tile = value
+        if (value == null) return
+        this.#tile.x = this.#x
+        this.#tile.y =this.#y
+    }
 }
 
-function createCellElements(gridElement){
+function createcellElements(gridElement){
     const cells = []
     for(let i =0; i < GRID_SIZE * GRID_SIZE; i++){
         const cell = document.createElement("div")
